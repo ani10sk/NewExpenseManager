@@ -10,4 +10,12 @@ class UserController {
       throw Exception(exception);
     }
   }
+
+  User getUser(String name, String dob, String phoneNo) {
+    try {
+      return userService.getUser(name, phoneNo, dob);
+    } catch (exception) {
+      throw Exception(exception);
+    }
+  }
 }

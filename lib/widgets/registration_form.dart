@@ -3,12 +3,17 @@ import '../widgets/registration_form_widget.dart';
 import 'package:flutter/material.dart';
 import '../providers/controllers/user_controller.dart';
 import '../providers/models/user.dart';
-import '../screens/landing_screen.dart';
 
-class RegistrationForm extends StatelessWidget {
+class RegistrationForm extends StatefulWidget {
   final Function setIsLoading;
-  RegistrationForm(this.setIsLoading, {super.key});
+  final Function setUser;
+  const RegistrationForm(this.setIsLoading, this.setUser, {super.key});
 
+  @override
+  State<RegistrationForm> createState() => _RegistrationFormState();
+}
+
+class _RegistrationFormState extends State<RegistrationForm> {
   final UserController userController = UserController();
 
   final formKey = GlobalKey<FormState>();
@@ -50,17 +55,22 @@ class RegistrationForm extends StatelessWidget {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     savePersonalData() async {
       try {
         if (formKey.currentState!.validate()) {
           formKey.currentState!.save();
-          setIsLoading(true);
+          widget.setIsLoading(true);
           // await Future.delayed(Duration(seconds: 10));
           User user = await userController.createUser(
               data["name"]!, data["dateOfBirth"]!, data["phoneNumber"]!);
-          setIsLoading(false);
-          Navigator.of(context).pushReplacementNamed(LandingScreen.rout);
+          widget.setIsLoading(false);
+          widget.setUser(user);
         }
       } catch (exception) {
         throw Exception(exception);
