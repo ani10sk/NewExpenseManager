@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import './providers/models/user.dart';
 import './providers/controllers/user_controller.dart';
 import './widgets/loading_widget.dart';
+import './screens/transaction_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -69,7 +70,9 @@ class MyApp extends StatelessWidget {
                 return RegisterUser(user);
               }
             }),
-        routes: const {},
+        routes: {
+          TransactionScreen.rout: (context) => const TransactionScreen()
+        },
       ),
     );
   }
